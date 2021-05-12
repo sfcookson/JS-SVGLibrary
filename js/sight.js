@@ -6,18 +6,13 @@ class SVGElement {
         return this;
     }
     attr(attrs) {
-        for(const [key, val] of Object.entries(attrs)) {
-            this.node.setAttributeNS(null, key, val);
+        for(const [key, value] of Object.entries(attrs)) {
+            this.node.setAttributeNS(null, key, value);
         }
         return this;
     }
     append(element) {
-        if(typeof(element) == String) {
-            parent = document.querySelector(element);
-        }
-        else {
-            parent = element.node;
-        }
+        const parent = typeof(element) === 'string' ? document.querySelector(element) : element.node;
         parent.appendChild(this.node);
         return this;
     }
@@ -25,11 +20,11 @@ class SVGElement {
 
 class Sight {
     constructor(selector, width, height) {
-        this.svg = new SVGAElement('svg').attr({
-            viewbox: `0 0 ${width} ${height}`
+        this.svg = new SVGElement('svg').attr({
+            viewbox: `0 0 ${width} ${height}`,
         }).append(selector);
     }
     draw (type, attrs){
-        return new SVGElement(type).attr(attrs).append(svg);
+        return new SVGElement(type).attr(attrs).append(this.svg);
     }
 }
